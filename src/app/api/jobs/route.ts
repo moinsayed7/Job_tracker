@@ -1,27 +1,63 @@
 import { NextResponse } from "next/server";
-import {prisma} from "@/lib/prisma"
-
+import {prisma} from "@/lib/prisma";
+import { createdJobSchema } from "@/lib/validation";
+import { Prisma } from "@prisma/client";
 
 export async function GET() {
 
-    const jobs= await prisma.job.findMany({
+    try{
+      const jobs= await prisma.job.findMany({
       orderBy: {id:"asc"}
     });
     return NextResponse.json(jobs);
+    }
+    catch(err){
+      console.error("Inter server error", err)
+      return NextResponse.json({error:"Internal server error"}, {status:500})
+    }
     
 }
 
 
 export async function POST(request: Request) {
-  const body = await request.json();
-  const job = await prisma.job.create({
+  let body:unknown;
+
+  try{
+      body = await request.json();
+
+  }
+  catch{
+    return NextResponse.json({error:"Unable to parse the data"}, {status:400})
+  }
+
+  const parsed= createdJobSchema.safeParse(body);
+
+  if(!parsed.success){
+    return NextResponse.json({error:"Invalid data",detail:parsed.error.flatten()}, {status:400})
+  }
+
+
+  try{
+    const job = await prisma.job.create({
     data: {
-      company: body.company,
-      role: body.role,
-      status: body.status,
+      company: parsed.data.company,
+      role: parsed.data.role,
+      status: parsed.data.status,
     },
   });
-  return NextResponse.json(job);
+
+    return NextResponse.json(job,{status:201});
+
+  }
+  catch(err:unknown){
+    if(err instanceof Prisma.PrismaClientKnownRequestError && err.code==="P2002"){
+      return NextResponse.json({error:"Data already exist"}, {status:409})
+    }
+    console.error("POST api/jobs FAILED", err);
+    return NextResponse.json({error:"Internal Server error"}, {status:500})
+  }
+
+
 }
 
 

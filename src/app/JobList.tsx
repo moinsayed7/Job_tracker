@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { JobCard } from "./JobCard";
 
 
@@ -15,26 +15,28 @@ type Job={id:number;
 
 export function JobList({data}:{data:Job[]}) {
 
-    const [initialJobs, setinitialJobs] = useState<Job[]>(data); 
+    const [jobData, setJobData] = useState<Job[]>(data); 
     
     function handleDelete(id: number) {
-  setinitialJobs(initialJobs.filter((job) => job.id !== id));
+        
+
+  setJobData((prev)=> prev.filter((job) => job.id !== id));
 }
 
-
-    let xyz=initialJobs.map((ele:Job)=>{
-        return (<JobCard x={ele} key={ele.id} onDelete={handleDelete}/>)
-    })
-
-    if(initialJobs.length===0){
+    if(jobData.length===0){
         return (
             <div>No jobs yet</div>
         )
     }
 
+    const cardCont=jobData.map((job:Job)=>{
+        return (<JobCard key={job.id} x={job} onDelete={handleDelete}/>)
+    })
+
+
     return (
         <>
-            {xyz}
+            {cardCont}
 
         </>
           
