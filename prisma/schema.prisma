@@ -8,6 +8,14 @@ datasource db {
 }
 
 
+model User{
+  id Int @id @default(autoincrement())
+  email String @unique
+  password String
+  createdAt DateTime @default(now())
+  jobs Job[]
+}
+
 
 model Job{
   id   Int  @id @default(autoincrement())
@@ -15,6 +23,8 @@ model Job{
   role String  
   status String @default("applied")
   createdAt DateTime @default(now())
+  userId Int
+  user User @relation(fields:[userId], references:[id], onDelete:Cascade)
 
 }
 
