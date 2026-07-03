@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 
-async function update(x:{id:number,company:string,role:string,status:string}):Promise<{success:boolean;error:string|null}> {
+async function update(x:{id:number,company:string,role:string,status:string,userId:number}):Promise<{success:boolean;error:string|null}> {
 
     try{
         const response= await fetch (`/api/jobs/${x.id}`, {
@@ -24,7 +24,7 @@ async function update(x:{id:number,company:string,role:string,status:string}):Pr
 }
 
 
-async function deleteCard (x:{id:number,company:string,role:string,status:string}):Promise<{success:boolean;error:string|null}> {
+async function deleteCard (x:{id:number,company:string,role:string,status:string,userId:number}):Promise<{success:boolean;error:string|null}> {
 
 
     try{
@@ -51,7 +51,7 @@ async function deleteCard (x:{id:number,company:string,role:string,status:string
 
 
 
-export function JobCard({x, onDelete}:{x:{id:number,company:string,role:string,status:string},onDelete:(id:number)=>void}) {
+export function JobCard({x, onDelete}:{x:{id:number,company:string,role:string,status:string, userId:number},onDelete:(id:number)=>void}) {
     const [status, setStatus] = useState<string>(x.status);
     const [error, setError]=useState<null | string>(null);
     const [isUpdating, setIsUpdating]=useState<boolean>(false)
@@ -64,7 +64,7 @@ export function JobCard({x, onDelete}:{x:{id:number,company:string,role:string,s
             onClick={async ()=>{
                     setError(null)
                     setIsUpdating(true);
-                    const parsed=await deleteCard({id:Number(x.id),company:x.company,role:x.role,status:x.status});
+                    const parsed=await deleteCard({id:Number(x.id),company:x.company,role:x.role,status:x.status,userId:x.userId});
 
                     if(!parsed.success){
                         setError(parsed.error)
@@ -92,7 +92,7 @@ export function JobCard({x, onDelete}:{x:{id:number,company:string,role:string,s
                     const oldStatus=status
                     setIsUpdating(true)
                     const newStatus=eve.target.value
-                    const parsed=await update({id:Number(x.id),company:x.company,role:x.role,status:eve.target.value});
+                    const parsed=await update({id:Number(x.id),company:x.company,role:x.role,status:eve.target.value,userId:x.userId});
                     setStatus(newStatus);
 
                     if(!parsed.success){

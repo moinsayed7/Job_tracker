@@ -58,3 +58,8 @@ export default function LoginPage() {
     </div>
   );
 }
+
+
+
+// Email: terimeri@example.com
+// Password: idktjmakd

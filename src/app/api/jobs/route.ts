@@ -2,12 +2,29 @@ import { NextResponse } from "next/server";
 import {prisma} from "@/lib/prisma";
 import { createdJobSchema } from "@/lib/validation";
 import { Prisma } from "@prisma/client";
+import { auth } from "@/lib/auth";
+
+async function getUser() {
+  const session= await auth();
+  if(!session || !session.user){
+    return null
+  }
+  return Number(session.user.id);
+  
+} 
 
 export async function GET() {
 
     try{
+
+      const userId=await getUser();
+      if(!userId)return NextResponse.json({error:"Unauthorized"}, {status:401});
+
+
+
       const jobs= await prisma.job.findMany({
-      orderBy: {id:"asc"}
+        where:{userId:userId},
+        orderBy: {id:"asc"}
     });
     return NextResponse.json(jobs);
     }
@@ -20,6 +37,10 @@ export async function GET() {
 
 
 export async function POST(request: Request) {
+
+  const userId=await getUser();
+      if(!userId)return NextResponse.json({error:"Unauthorized"}, {status:401});
+
   let body:unknown;
 
   try{
@@ -43,6 +64,7 @@ export async function POST(request: Request) {
       company: parsed.data.company,
       role: parsed.data.role,
       status: parsed.data.status,
+      userId:userId
     },
   });
 
@@ -64,4 +86,5 @@ export async function POST(request: Request) {
 
 
 
-
+// Email: terimeri@example.com
+// Password: idktjmakd

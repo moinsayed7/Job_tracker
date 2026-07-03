@@ -9,7 +9,8 @@ type Job={id:number;
     company:string;
     role:string;
     status:string;
-    createdAt:string
+    createdAt:string;
+    userId:number
   
 }
 

@@ -1,7 +1,8 @@
 
+import { prisma } from "@/lib/prisma";
 import { JobList } from "./JobList";
 
-
+import { auth } from "@/lib/auth";
 
 
 type data={
@@ -9,21 +10,29 @@ type data={
     company:string;
     role:string;
     status:string;
-    createdAt:string
+    createdAt:string;
+    userId:number
   }
 
 export async function getData():Promise<data[]> {
-
-  let response= await fetch(`http://localhost:3000/api/jobs`);
-
-  if(!response.ok){
-    return []
+  const session = await auth();
+  if (!session?.user?.id) {
+    return [];
   }
 
-  let data= await response.json();
-  
-  return data
-  
+  const userId = Number(session.user.id);
+  if (Number.isNaN(userId)) {
+    return [];
+  }
+
+  const jobs = await prisma.job.findMany({
+    where: { userId },
+  });
+
+  return jobs.map((item) => ({
+    ...item,
+    createdAt: item.createdAt.toISOString(),
+  }));
 }
 
 
@@ -48,7 +57,7 @@ async function RenderCard(){
 
   return(
     <>
-         <JobList data={data}/>
+         <JobList data={ data}/>
 
     </>
   )

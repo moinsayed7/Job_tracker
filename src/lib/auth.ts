@@ -5,6 +5,7 @@ import { schemaLogin } from "./registerValidation"
 import { prisma } from "./prisma"
 
 
+
 export const {handlers, signIn, signOut, auth}=NextAuth({
     providers:[
         Credentials({
@@ -33,8 +34,23 @@ export const {handlers, signIn, signOut, auth}=NextAuth({
                 return {email:user.email, id:String(user.id)}
 
             }
-        })
-    ]
+        }),
+    
+    ],
+    callbacks: {
+    jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      if (token.id) {
+        session.user.id = token.id as string;
+      }
+      return session;
+    },
+}
 })
 
 
