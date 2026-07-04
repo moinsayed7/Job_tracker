@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import LogoutButton from "./components/LogoutButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,7 @@ export default function RootLayout({
         <nav className="bg-blue-900 w-[100%] flex px-4 py-2 font-[`Inter`] text-white font-bold mb-5 justify-between">
           <Link className="mr-4" href={"/"}>Home</Link>
           <Link href={"/addJob"}>+ Add job</Link>
+          <LogoutButton/>
         </nav>
         
         
