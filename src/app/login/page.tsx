@@ -55,6 +55,9 @@ export default function LoginPage() {
       >
         {isLoading ? "Signing in..." : "Sign in"}
       </button>
+
+      <p>Don't have an account? <a href="/register">Sign up</a></p>
+
     </div>
   );
 }
@@ -64,3 +67,6 @@ export default function LoginPage() {
 // Email: terimeri@example.com
 // Password: idktjmakd
 
+
+// moin@gmail.com
+// moinsayed1
