@@ -86,5 +86,3 @@ export async function POST(request: Request) {
 
 
 
-// Email: terimeri@example.com
-// Password: idktjmakd

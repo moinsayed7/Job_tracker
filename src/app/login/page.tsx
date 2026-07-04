@@ -68,5 +68,4 @@ export default function LoginPage() {
 // Password: idktjmakd
 
 
-// moin@gmail.com
-// moinsayed1
+
