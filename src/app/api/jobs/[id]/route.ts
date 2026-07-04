@@ -2,8 +2,26 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { updatedJobSchema } from "@/lib/validation";
 import { Prisma } from "@prisma/client";
+import { auth } from "@/lib/auth";
+
+
+async function getId(){
+
+    const session=await auth();
+    if(!session || !session?.user?.id)return null;
+
+    return Number(session.user.id);
+
+}
+
 
 export async function PATCH(request:Request,{params}: {params:Promise<{id:string}>}) {
+
+    const userId=await getId();
+    if(!userId){
+        return NextResponse.json({error:"Unauthorized"}, {status:401})
+    }
+
 
     const {id}=await params;
     const jobId=Number(id)
@@ -38,7 +56,8 @@ const newStatus=parsed.data.status;
 
 try{
     const updatedJob= await prisma.job.update({
-    where: {id:Number(jobId)},
+    where: {id:Number(jobId),userId:userId},
+    
     data: { status: newStatus },
 
 })
@@ -61,6 +80,11 @@ catch(err:unknown){
 
 export async function  DELETE(request:Request, {params}: {params:Promise<{id:string}>}) {
 
+    const userId=await getId();
+    if(!userId){
+        return NextResponse.json({error:"Unauthorized"}, {status:401})
+    }
+
     const {id}=await params;
     const jobId=Number(id)
     if(!Number.isInteger(jobId)){
@@ -69,7 +93,7 @@ export async function  DELETE(request:Request, {params}: {params:Promise<{id:str
 
     try{
         const del=await prisma.job.delete({
-        where:{id:Number(jobId)},
+        where:{id:Number(jobId), userId:userId},
         
     
     

@@ -27,6 +27,7 @@ export async function getData():Promise<data[]> {
 
   const jobs = await prisma.job.findMany({
     where: { userId },
+    orderBy:{id:"asc"}
   });
 
   return jobs.map((item) => ({
