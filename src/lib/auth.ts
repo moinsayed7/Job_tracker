@@ -1,61 +1,38 @@
-import NextAuth from "next-auth"
-import Credentials from "next-auth/providers/credentials"
-import bcrypt from "bcryptjs"
-import { schemaLogin } from "./registerValidation"
-import { prisma } from "./prisma"
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
+import { schemaLogin } from "./registerValidation";
+import { prisma } from "./prisma";
+import { authConfig } from "./auth.config";
 
+export const { handlers, signIn, signOut, auth } = NextAuth({
+  ...authConfig,
+  providers: [
+    Credentials({
+      credentials: {
+        email: {},
+        password: {},
+      },
+      authorize: async (credentials) => {
+        const parsed = schemaLogin.safeParse(credentials);
+        if (!parsed.success) {
+          return null;
+        }
 
+        const user = await prisma.user.findUnique({
+          where: { email: parsed.data.email },
+        });
 
-export const {handlers, signIn, signOut, auth}=NextAuth({
-    providers:[
-        Credentials({
-            credentials:{
-                email:{},
-                password:{},
-            },
-            authorize:async(credentials)=>{
-                const parsed= schemaLogin.safeParse(credentials);
-                if(!parsed.success){
-                    return null
-                }
-                
-                const user=await prisma.user.findUnique({
-                    where:{email:parsed.data.email}
-                })
-                
-                if(!user){
-                    return null
-                }
+        if (!user) {
+          return null;
+        }
 
-                const isValidPass=await bcrypt.compare(parsed.data.password,user.password);
-                
-                if(!isValidPass) return null
+        const isValidPass = await bcrypt.compare(parsed.data.password, user.password);
 
-                return {email:user.email, id:String(user.id)}
+        if (!isValidPass) return null;
 
-            }
-        }),
-    
-    ],
-    callbacks: {
-    jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-      }
-      return token;
-    },
-    session({ session, token }) {
-      if (token.id) {
-        session.user.id = token.id as string;
-      }
-      return session;
-    },
-}
-})
-
-
-
-
-
-
-
+        return { email: user.email, id: String(user.id) };
+      },
+    }),
+  ],
+});
