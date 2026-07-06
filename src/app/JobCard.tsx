@@ -103,9 +103,9 @@ export function JobCard({x, onDelete}:{x:{id:number,company:string,role:string,s
 
 
                 }}>
-                <option value="applied">Applied</option>
-                <option value="interview">Interview</option>
-                <option value="rejected">Rejected</option>
+                <option className="text-center" value="applied">Applied</option>
+                <option className="text-center" value="interview">Interview</option>
+                <option className="text-center" value="rejected">Rejected</option>
                 <option className="text-center" value="offer">Offer</option>
                 </select>
 

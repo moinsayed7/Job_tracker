@@ -3,35 +3,25 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-
-model User{
-  id Int @id @default(autoincrement())
-  email String @unique
-  password String
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
   createdAt DateTime @default(now())
-  jobs Job[]
+  jobs      Job[]
 }
 
-
-model Job{
-  id   Int  @id @default(autoincrement())
-  company String 
-  role String  
-  status String @default("applied")
+model Job {
+  id        Int      @id @default(autoincrement())
+  company   String
+  role      String
+  status    String   @default("applied")
   createdAt DateTime @default(now())
-  userId Int
-  user User @relation(fields:[userId], references:[id], onDelete:Cascade)
-
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
-
-
-
-
-
-
-
-

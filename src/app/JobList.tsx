@@ -19,9 +19,10 @@ export function JobList({data}:{data:Job[]}) {
     const [jobData, setJobData] = useState<Job[]>(data); 
     
     function handleDelete(id: number) {
-        
 
-  setJobData((prev)=> prev.filter((job) => job.id !== id));
+        setJobData((prev)=> prev.filter((job) => job.id !== id));
+
+
 }
 
     if(jobData.length===0){
