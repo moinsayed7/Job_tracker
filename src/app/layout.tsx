@@ -30,9 +30,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <nav className="bg-blue-900 w-[100%] flex px-4 py-2 font-[`Inter`] text-white font-bold mb-5 justify-between">
-          <Link className="mr-4" href={"/"}>Home</Link>
-          <Link href={"/addJob"}>+ Add job</Link>
+        <nav className="bg-blue-900 w-[100%] flex px-4 py-2 font-[`Inter`] text-white font-bold mb-5 justify-between"><div className="flex ">
+          <Link className="pr-2 border-r" href={"/"}>Home</Link>
+          <Link className="pl-2" href={"/addJob"}>+Add job</Link>
+          </div>
           <LogoutButton/>
         </nav>
         

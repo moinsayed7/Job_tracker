@@ -13,11 +13,15 @@ export default function CreateAcc(){
     const [error,setError]= useState<null | string>(null);
 
     return (
-        <div>
+        <div className="flex justify-center ">
+            <div className="bg-blue-200 flex flex-col items-center py-7 px-7 rounded-xl mt-22 shadow-xl">
+
+            <h1  className="text-center text-2xl mb-10">Sign up</h1>
             
             <div>
-                <label htmlFor="email">Email:</label>
-                <input disabled={isLoading} value={email} type="text" name="" id="email"
+                <input  className="border bg-white px-2 w-50 mb-3"
+                placeholder="Email"
+                disabled={isLoading} value={email} type="text" name="" id="email"
                 onChange={(e)=>{
                     setEmail(e.target.value)
                 }}
@@ -25,16 +29,19 @@ export default function CreateAcc(){
             </div>
 
             <div>
-                <label htmlFor="password">Password:</label>
-                <input disabled={isLoading} value={password} type="password" name="" id="password" 
+                
+                <input  className="border bg-white px-2 w-50 mb-7"
+                placeholder="Password"
+                disabled={isLoading} value={password} type="password" name="" id="password" 
                 onChange={ (e)=>{
                     setPassword(e.target.value)
                 }}
                 />
             </div>
-            {error && <p className="text-red">{error}</p>}
+            {error && <p className="text-red mb-3">{error}</p>}
 
-            <button onClick={async ()=>{
+            <button className="w-50 bg-green-200 mb-7 rounded-md shadow-md"
+            onClick={async ()=>{
                 setError(null);
                 setIsLoading(true)
 
@@ -75,8 +82,8 @@ export default function CreateAcc(){
 
             }}>Submit</button>
 
-            <p>Already have an account? <a href="/login">Sign in</a></p>        
-
+            <p className="w-50 text-center">Already have an account? <a  className="text-blue-900 underline" href="/login">Sign in</a></p>        
+            </div>
         </div>
     )
 

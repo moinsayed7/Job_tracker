@@ -9,11 +9,12 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="flex justify-center">
+      <div className="bg-blue-200 flex flex-col items-center py-7 px-7 rounded-xl mt-22 shadow-xl" >
+      <h1 className="text-center text-2xl mb-10">Login</h1>
       <div>
-        <label htmlFor="email">Email:</label>
-        <input
+        <input className="border bg-white px-2 w-50 mb-3"
+          placeholder="Email"
           id="email"
           type="email"
           value={email}
@@ -21,16 +22,16 @@ export default function LoginPage() {
         />
       </div>
       <div>
-        <label htmlFor="password">Password:</label>
-        <input
+        <input className="border bg-white px-2 w-50 mb-7"
+          placeholder="Password"
           id="password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <button
+      {error && <p className="mb-3 text-red" >{error}</p>}
+      <button className="w-50 bg-green-200 mb-7 rounded-md shadow-md"
         disabled={isLoading}
         onClick={async () => {
           if (email.trim() === "" || password.trim() === "") {
@@ -56,8 +57,8 @@ export default function LoginPage() {
         {isLoading ? "Signing in..." : "Sign in"}
       </button>
 
-      <p>Don't have an account? <a href="/register">Sign up</a></p>
-
+      <p className="w-50 text-center">Don't have an account? <a className="text-blue-900 underline" href="/register">Sign up</a></p>
+        </div>
     </div>
   );
 }
