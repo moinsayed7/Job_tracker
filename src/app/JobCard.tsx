@@ -97,9 +97,7 @@ export function JobCard({
     "border-slate-200 bg-slate-50 text-slate-700 focus:border-blue-500 focus:ring-blue-500/10";
 
   return (
-    <article
-      className="group relative flex w-full flex-col rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md sm:w-[280px]"
-    >
+    <article className="group relative flex w-full flex-col rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md sm:w-[280px]">
       <button
         type="button"
         aria-label={`Delete ${x.company} application`}

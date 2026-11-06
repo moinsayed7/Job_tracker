@@ -1,20 +1,10 @@
-
 import { describe, it, expect } from "vitest";
 
-import {
-  statusSchema,
-  createdJobSchema,
-  updatedJobSchema,
-} from "./validation";
+import { statusSchema, createdJobSchema, updatedJobSchema } from "./validation";
 
 describe("Status schema", () => {
   it("accepts all four valid statuses", () => {
-    const statuses = [
-      "applied",
-      "rejected",
-      "offer",
-      "interview",
-    ];
+    const statuses = ["applied", "rejected", "offer", "interview"];
 
     statuses.forEach((status) => {
       expect(statusSchema.safeParse(status).success).toBe(true);

@@ -3,11 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-async function sendData(x: {
-  company: string;
-  role: string;
-  status: string;
-}) {
+async function sendData(x: { company: string; role: string; status: string }) {
   await fetch("/api/jobs", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

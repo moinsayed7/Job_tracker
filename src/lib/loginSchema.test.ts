@@ -1,9 +1,5 @@
-
 import { describe, it, expect } from "vitest";
-import {
-  schemaLogin,
-  createdRegistrationSchema,
-} from "./registerValidation";
+import { schemaLogin, createdRegistrationSchema } from "./registerValidation";
 
 describe("Login schema", () => {
   it("accepts valid credentials", () => {
@@ -11,7 +7,7 @@ describe("Login schema", () => {
       schemaLogin.safeParse({
         email: "test@example.com",
         password: "password123",
-      }).success
+      }).success,
     ).toBe(true);
   });
 
@@ -20,7 +16,7 @@ describe("Login schema", () => {
       schemaLogin.safeParse({
         email: "invalid-email",
         password: "password123",
-      }).success
+      }).success,
     ).toBe(false);
   });
 
@@ -29,7 +25,7 @@ describe("Login schema", () => {
       schemaLogin.safeParse({
         email: "test@example.com",
         password: "12345678",
-      }).success
+      }).success,
     ).toBe(false);
   });
 });
@@ -40,7 +36,7 @@ describe("Registration schema", () => {
       createdRegistrationSchema.safeParse({
         email: "test@example.com",
         password: "password123",
-      }).success
+      }).success,
     ).toBe(true);
   });
 
@@ -49,7 +45,7 @@ describe("Registration schema", () => {
       createdRegistrationSchema.safeParse({
         email: "invalid-email",
         password: "password123",
-      }).success
+      }).success,
     ).toBe(false);
   });
 
@@ -58,7 +54,7 @@ describe("Registration schema", () => {
       createdRegistrationSchema.safeParse({
         email: "test@example.com",
         password: "12345678",
-      }).success
+      }).success,
     ).toBe(false);
   });
 });
